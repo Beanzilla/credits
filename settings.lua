@@ -7,6 +7,6 @@ credits.settings.starting_balance = 100 -- New players who the mod did not see b
 credits.settings.allow_replication = false -- Do we allow credits in item_replicators? (could be duped)
 
 if credits.settings.allow_replication then
-    credits.settings.replication_time = 15
-    credits.settings.replication_amount = 1
+    credits.settings.replication_time = 15 -- Seconds it takes...
+    credits.settings.replication_amount = 1 -- To produce this many
 end
