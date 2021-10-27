@@ -72,9 +72,9 @@ end)
 -- Either blacklist it or add it's settings to item_replicator (but only if item_replicators is installed)
 local ir = rawget(_G, "item_replicator") or nil
 if ir and not credits.settings.allow_replication then
-    minetest.log("[credits] Blacklisting credits from replicators")
+    minetest.log("action", "[credits] Blacklisting credits from replicators")
     ir.bl_add("credits:credits")
 elseif ir and credits.settings.allow_replication then
-    minetest.log("[credits] Added Replication settings of "..tostring(credits.settings.replication_amount).." amount every "..tostring(credits.settings.replication_time).." seconds.")
+    minetest.log("action", "[credits] Added Replication settings of "..tostring(credits.settings.replication_amount).." amount every "..tostring(credits.settings.replication_time).." seconds.")
     ir.add("credits:credits", credits.settings.replication_amount, credits.settings.replication_time)
 end
