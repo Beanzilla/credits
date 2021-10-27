@@ -42,7 +42,7 @@ credits.dump = function (name, amount)
             if inv:room_for_item("main", stack) then
                 inv:add_item("main", stack)
                 credits.add_coin(name, -amt)
-                return true, credits.S("Converted @1 creditss", amt)
+                return true, credits.S("Converted @1 credits", amt)
             else
                 return false, credits.S("You don't have enough space to store @1 credits", amt)
             end
@@ -64,5 +64,5 @@ credits.load = function (name)
         end
     end -- Ha, now we add the digital based on the first dirty and quick check
     credits.add_coin(name, bal)
-    return true, credits.S("Converted @1 creditss", bal)
+    return true, credits.S("Converted @1 credits", bal)
 end

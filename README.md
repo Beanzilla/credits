@@ -23,7 +23,7 @@ In a Digital form it is slightly easier to know how much a player has. (Where as
 
 ### Why Physical
 
-Physical was added to provide a way for a player to in some sense "save" credits so if they tend to spend all their creditss they could convert some to physical then hide that in a chest.
+Physical was added to provide a way for a player to in some sense "save" credits so if they tend to spend all their credits they could convert some to physical then hide that in a chest.
 
 It was also added to allow completely physical item trades. (For those who don't trust the `/credits pay playername ##` command, or are using it at a shop)
 
@@ -64,7 +64,7 @@ Sends ## of credits in digital form to the playername (provided that player has 
 
 Calculates total number of credits the player has. (Also gives a breakdown of digital and physical credit counts)
 
-> I.E. Assuming I had 10 creditss in digital and 100 in physical:
+> I.E. Assuming I had 10 credits in digital and 100 in physical:
 >
 >        Total:    110
 >

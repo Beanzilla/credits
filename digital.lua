@@ -120,9 +120,9 @@ credits.give = function (name, amount)
         amt = tonumber(amount) or 0
         amt = math.abs(amt)
         credits.add_coin(name, amt)
-        return true, credits.S("Gave @1 creditss", amt)
+        return true, credits.S("Gave @1 credits", amt)
     else
-        return false, credits.S("You need the give priv to give yourself creditss")
+        return false, credits.S("You need the give priv to give yourself credits")
     end
 end
 
