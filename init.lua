@@ -56,8 +56,8 @@ end)
 -- Clean up when a player leaves so it properly shows their balances on HUD next time.
 minetest.register_on_leaveplayer(function(player, timed_out)
     local pname = player:get_player_name()
-    if credits.display ~= nil then
-        credits.display[pname] = nil
+    if credits.displays ~= nil then
+        credits.displays[pname] = nil
     end
 end)
 
