@@ -53,6 +53,14 @@ minetest.register_on_joinplayer(function(player, laston)
     end
 end)
 
+-- Clean up when a player leaves so it properly shows their balances on HUD next time.
+minetest.register_on_leaveplayer(function(player, timed_out)
+    local pname = player:get_player_name()
+    if credits.display ~= nil then
+        credits.display[pname] = nil
+    end
+end)
+
 -- Initalize the chat commands
 dofile(credits.modpath.."/cmds.lua")
 
