@@ -64,7 +64,7 @@ credits.show_bal = function (pname)
         if dis[pname] == nil then
             dis[pname] = p:hud_add({
                 hud_elem_type = "text",
-                position = {x = 0.8, y = 0.1},
+                position = {x = 0.15, y = 0.65},
                 offset = {x = 0.0, y = 0.0},
                 text = credits.S("Credits: @1 (@2)", total, phy),
                 number = 0x00e100, -- 0, 225, 0 (RGB)
