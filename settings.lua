@@ -10,3 +10,12 @@ if credits.settings.allow_replication then
     credits.settings.replication_time = 15 -- Seconds it takes...
     credits.settings.replication_amount = 1 -- To produce this many
 end
+
+credits.settings.online_get_interest = true -- Do player's online get interest or does every account get interest
+-- If online_get_interest then
+--      For each player online do
+--          credits_interest(player)
+-- Else
+--      For every player with an account do
+--          credits_interest(player_account)
+-- End

@@ -8,6 +8,9 @@ credits.perform_interest = function()
         local days_off = current_day - last_day
         minetest.log("action", "Interest last performed "..tostring(days_off).." days ago")
         local ulist = credits.user_list()
+        if credits.settings.online_get_interest then -- Instead of every account let's get the current connected players
+            ulist = minetest.get_connected_players()
+        end
         --minetest.log("action", "There are "..tostring(#ulist).." players to perform interst on")
         for i in ipairs(ulist) do
             -- Only perform 1 days worth of interest. (While this means more online more money it doesn't ruin servers which have been running a long time)

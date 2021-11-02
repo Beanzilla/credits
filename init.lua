@@ -5,7 +5,9 @@ credits = {}
 credits.S = minetest.get_translator("credits")
 credits.modpath = minetest.get_modpath("credits")
 credits.store = minetest.get_mod_storage()
-credits.VERSION = "1.0-dev"
+credits.VERSION = "1.2"
+
+minetest.log("action", "[credits] Version: "..credits.VERSION)
 
 -- Assistants
 
@@ -36,6 +38,8 @@ elseif minetest.registered_nodes["mcl_core:stone"] then
 else
     credits.GAMEMODE = "???"
 end
+
+minetest.log("action", "[credits] Detected gamemode "..credits.GAMEMODE)
 
 dofile(credits.modpath.."/settings.lua")
 
@@ -86,3 +90,5 @@ elseif ir and credits.settings.allow_replication then
     minetest.log("action", "[credits] Added Replication settings of "..tostring(credits.settings.replication_amount).." amount every "..tostring(credits.settings.replication_time).." seconds.")
     ir.add("credits:credits", credits.settings.replication_amount, credits.settings.replication_time)
 end
+
+minetest.log("action", "[credits] Ready")

@@ -1,6 +1,12 @@
-# Credits
+# Credits V1.2
 
 A physical and digital currency.
+
+## News
+
+* Version 1.2 introduces 2 other branches of the physical currency (Mk2 and Mk3 are 9:1 to 81:1 credit ratio), currently they can only be crafted by players. (But can be loaded the same)
+* Plans for Version 1.3:
+    * Improve `/credits dump ##` to allow it to dump any number of credits (and possibly make some form of mathmatics to make use of Mk2 and Mk3 credits too)
 
 ## What's in the box
 
