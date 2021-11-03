@@ -5,7 +5,7 @@ credits = {}
 credits.S = minetest.get_translator("credits")
 credits.modpath = minetest.get_modpath("credits")
 credits.store = minetest.get_mod_storage()
-credits.VERSION = "1.2"
+credits.VERSION = "1.2.1"
 
 minetest.log("action", "[credits] Version: "..credits.VERSION)
 
