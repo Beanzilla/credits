@@ -23,7 +23,7 @@ credits.perform_interest = function()
         end
         minetest.log("action", "There are "..tostring(#ulist).." players to perform interst on")
         for _, user in ipairs(ulist) do
-            minetest.log("action", minetest.serialize(user))
+            -- minetest.log("action", minetest.serialize(user))
             -- Only perform 1 days worth of interest. (While this means more online more money it doesn't ruin servers which have been running a long time)
             local cur = credits.get_balance_digital(user)
             local earn = math.floor(cur * credits.settings.interest_rate) -- Ensure it's a whole number
