@@ -26,12 +26,12 @@ credits.settings.max_interest = 250 -- Limit the max credits a player can earn t
 
 set.interest_rate = minetest.settings:get("credits.interest_rate")
 set.bal_refresh_rate = minetest.settings:get("credits.hud_refresh_rate")
-set.starting_balance = minetest.settings:get_int("credits.starting_balance")
+set.starting_balance = minetest.settings:get("credits.starting_balance")
 set.allow_replication = minetest.settings:get_bool("credits.allow_replication")
-set.replication_time = minetest.settings:get_int("credits.replication_time")
-set.replication_amount= minetest.settings:get_int("credits.replication_amount")
+set.replication_time = minetest.settings:get("credits.replication_time")
+set.replication_amount= minetest.settings:get("credits.replication_amount")
 set.online_get_interest = minetest.settings:get_bool("credits.online_get_interest")
-set.max_interest = minetest.settings:get_int("credits.max_interest")
+set.max_interest = minetest.settings:get("credits.max_interest")
 
 -- Auto generate if they didn't exist
 if set.interest_rate == nil then
@@ -44,7 +44,7 @@ if set.bal_refresh_rate == nil then
 end
 if set.starting_balance == nil then
     set.starting_balance = 100
-    minetest.settings:set_int("credits.starting_balance", set.starting_balance)
+    minetest.settings:set("credits.starting_balance", set.starting_balance)
 end
 if set.allow_replication == nil then
     set.allow_replication = false
@@ -52,11 +52,11 @@ if set.allow_replication == nil then
 end
 if set.replication_time == nil then
     set.replication_time = 60
-    minetest.settings:set_int("credits.replication_time", set.replication_time)
+    minetest.settings:set("credits.replication_time", set.replication_time)
 end
 if set.replication_amount == nil then
     set.replication_amount = 1
-    minetest.settings:set_int("credits.replication_amount", set.replication_amount)
+    minetest.settings:set("credits.replication_amount", set.replication_amount)
 end
 if set.online_get_interest == nil then
    set.online_get_interest = true
@@ -64,5 +64,5 @@ if set.online_get_interest == nil then
 end
 if set.max_interest == nil then
     set.max_interest = 250
-    minetest.settings:set_int("credits.max_interest", set.max_interest)
+    minetest.settings:set("credits.max_interest", set.max_interest)
 end
