@@ -1,0 +1,24 @@
+
+# 0.05 is 5%
+credits.interest_rate (Interest earned as percent) float 0.05 0.01 1.0
+
+# In seconds
+credits.hud_refresh_rate (Frequency to update the graphical HUD) float 3.0 0.0 60.0
+
+# For new players the mod has never seen before (on player connect)
+credits.starting_balance (Starting Balance) int 100 0 1000000
+
+# Enable this to allow only "credits:credits" to be replicated (MK2 and MK3 are always not allowed)
+credits.allow_replication (Allow Replicationg "credits:credits") bool false
+
+# Only used if credits.allow_replication is enabled
+credits.replication_time (Time till a Credit is made via replication) int 60 1 86400
+
+# Only used if credits.allow_replication is enabled
+credits.replication_amount (How many Credits are made via replication) int 1 1 1000
+
+# Enabled requires a player to be online to get interest, disabled allows all players with credits accounts can earn interest
+credits.online_get_interest (Online only get interest) bool true
+
+# Limits the maximum able to be earned per day
+credits.max_interest (Max Interest) int 250 0 1000000
