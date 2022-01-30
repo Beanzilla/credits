@@ -27,6 +27,9 @@ credits.perform_interest = function()
             -- Only perform 1 days worth of interest. (While this means more online more money it doesn't ruin servers which have been running a long time)
             local cur = credits.get_balance_digital(user)
             local earn = math.floor(cur * credits.settings.interest_rate) -- Ensure it's a whole number
+            if earn > credits.settings.max_interest then -- Prevent the player from earning more than X credits per day (I get around 3000 credits on my server, yikes)
+                earn = credits.settings.max_interest
+            end
             --minetest.log("action", "Player '"..ulist[i].."' has "..tostring(cur).." credits")
             credits.add_coin(user, tonumber(earn) ) -- Move the percent interest to settings.lua (interest percent)
             minetest.log("action", "Player '"..user.."' earned "..tostring( tonumber(earn) ).." credits in interest")
