@@ -30,7 +30,7 @@ set.starting_balance = minetest.settings:get_int("credits.starting_balance")
 set.allow_replication = minetest.settings:get_bool("credits.allow_replication")
 set.replication_time = minetest.settings:get_int("credits.replication_time")
 set.replication_amount= minetest.settings:get_int("credits.replication_amount")
-set.online_get_interest = minetest.settings:get_bool("credits.online_get_interest)
+set.online_get_interest = minetest.settings:get_bool("credits.online_get_interest")
 set.max_interest = minetest.settings:get_int("credits.max_interest")
 
 -- Auto generate if they didn't exist
