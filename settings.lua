@@ -78,3 +78,12 @@ if set.max_interest == nil then
 else
     set.max_interest = tonumber(set.max_interest)
 end
+
+minetest.log("action", "[credits] credits.interest_rate = '"..tostring(set.interest_rate).."'")
+minetest.log("action", "[credits] credits.hud_refresh_rate = '"..tostring(set.bal_refresh_rate).."'")
+minetest.log("action", "[credits] credits.starting_balance = '"..tostring(set.starting_balance).."'")
+minetest.log("action", "[credits] credits.allow_replication = '"..tostring(set.allow_replication).."'")
+minetest.log("action", "[credits] credits.replication_time = '"..tostring(set.replication_time).."'")
+minetest.log("action", "[credits] credits.replication_amount = '"..tostring(set.replication_amount).."'")
+minetest.log("action", "[credits] credits.online_get_interest = '"..tostring(set.online_get_interest).."'")
+minetest.log("action", "[credits] credits.max_interest = '"..tostring(set.max_interest).."'")
