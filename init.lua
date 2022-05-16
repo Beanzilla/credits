@@ -5,7 +5,7 @@ credits = {}
 credits.S = minetest.get_translator("credits")
 credits.modpath = minetest.get_modpath("credits")
 credits.store = minetest.get_mod_storage()
-credits.VERSION = "1.2.3"
+credits.VERSION = "1.3"
 
 minetest.log("action", "[credits] Version: "..credits.VERSION)
 
@@ -86,13 +86,9 @@ local ir = rawget(_G, "item_replicator") or nil
 if ir and not credits.settings.allow_replication then
     minetest.log("action", "[credits] Blacklisting credits from replicators")
     ir.bl_add("credits:credits")
-    ir.bl_add("credits:credits_mkii")
-    ir.bl_add("credits:credits_mkiii")
 elseif ir and credits.settings.allow_replication then
     minetest.log("action", "[credits] Added Replication settings of "..tostring(credits.settings.replication_amount).." amount every "..tostring(credits.settings.replication_time).." seconds.")
     ir.add("credits:credits", credits.settings.replication_amount, credits.settings.replication_time)
-    ir.bl_add("credits:credits_mkii")
-    ir.bl_add("credits:credits_mkiii")
 end
 
 minetest.log("action", "[credits] Ready")

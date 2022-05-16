@@ -6,95 +6,65 @@
 
 -- The physical item
 minetest.register_craftitem("credits:credits", {
-    description = credits.S("Credit"),
+    short_description = credits.S("Credit"),
+    description = credits.S("Credit\nValue: 1"),
     inventory_image = "credits_credits_blue.png",
-    stack_max = 1000 -- I add a max of 1000 just because 1k is a fairly large amount (Though it could mean nothing since it's also digital)
-})
-
-minetest.register_craftitem("credits:credits_mkii", {
-    description = credits.S("Credit Mk2"),
-    inventory_image = "credits_credits_green.png",
-    stack_max = 1000 -- I add a max of 1000 just because 1k is a fairly large amount (Though it could mean nothing since it's also digital)
-})
-
-minetest.register_craftitem("credits:credits_mkiii", {
-    description = credits.S("Credit Mk3"),
-    inventory_image = "credits_credits_red.png",
-    stack_max = 1000 -- I add a max of 1000 just because 1k is a fairly large amount (Though it could mean nothing since it's also digital)
+    stack_max = 50000,
+    value = 1, -- How much it actually is worth (this allows me to do withdraw into a single item then handle loading it back in)
+    on_secondary_use = function (stack, user, pointed)
+        if user ~= nil then
+            local _, rc = credits.load(user:get_player_name())
+            if rc ~= nil then
+                minetest.chat_send_player(user:get_player_name(), rc)
+            end
+        end
+        -- Doesn't matter what I return the stack should be kept unless modifed by credits load
+    end
 })
 
 -- An alias of the physical item
 minetest.register_alias("credits", "credits:credits")
-minetest.register_alias("credits_mk2", "credits:credits_mkii")
-minetest.register_alias("credits_mk3", "credits:credits_mkiii")
 
 -- Add Crafts
 minetest.register_craft({
     type = "fuel",
     recipe = "credits:credits",
-    burntime = 1 -- For those who just litteraly want to burn money
-})
-
-minetest.register_craft({
-    type = "fuel",
-    recipe = "credits:credits_mkii",
-    burntime = 10 -- For those who just litteraly want to burn money
-})
-
-minetest.register_craft({
-    type = "fuel",
-    recipe = "credits:credits_mkiii",
-    burntime = 100 -- For those who just litteraly want to burn money
-})
-
-minetest.register_craft({
-    output = "credits:credits_mkii",
-    recipe = { -- 9 credits = 1 mk2 credit
-        {"credits:credits", "credits:credits", "credits:credits"},
-        {"credits:credits", "credits:credits", "credits:credits"},
-        {"credits:credits", "credits:credits", "credits:credits"}
-    },
-})
-
-minetest.register_craft({
-    type = "shapeless",
-    output = "credits:credits 9",
-    recipe = { -- 1 mk2 credit = 9 credits
-        "credits:credits_mkii"
-    }
-})
-
-minetest.register_craft({
-    output = "credits:credits_mkiii",
-    recipe = { -- 9 mk2 credits = 1 mk3 credit
-        {"credits:credits_mkii", "credits:credits_mkii", "credits:credits_mkii"},
-        {"credits:credits_mkii", "credits:credits_mkii", "credits:credits_mkii"},
-        {"credits:credits_mkii", "credits:credits_mkii", "credits:credits_mkii"}
-    },
-})
-
-minetest.register_craft({
-    type = "shapeless",
-    output = "credits:credits_mkii 9",
-    recipe = { -- 1 mk3 credit = 9 mk2 credits
-        "credits:credits_mkiii"
-    }
+    burntime = 1 -- For those who just litteraly want to burn money (This will actually only burn for 1 regardless the value, thus not quite good)
 })
 
 -- Checks the player's physical inventory for credits (Given by /credits dump ##)
-credits.get_balance_physical = function(pname)
+credits.get_balance_physical_all = function(pname)
     local p = minetest.get_player_by_name(pname)
     local bal = 0
     if p ~= nil then
         local inv = minetest.get_inventory({type="player", name=pname})
         for i, stack in ipairs(inv:get_list("main")) do
             if stack:get_name() == "credits:credits" then
-                bal = bal + stack:get_count()
-            elseif stack:get_name() == "credits:credits_mkii" then
-                bal = bal + (stack:get_count() * 9) -- Each one counts for 9
-            elseif stack:get_name() == "credits:credits_mkiii" then
-                bal = bal + ((stack:get_count() * 9) * 9) -- Each one counts for 81
+                local meta = stack:get_meta()
+                local value = 1
+                if meta:get_int("value") ~= nil then
+                    value = meta:get_int("value")
+                end
+                bal = bal + (stack:get_count() * value)
             end
+        end
+    end
+    return bal
+end
+
+-- Checks the player's physical hand for credits
+credits.get_balance_physical = function(pname)
+    local p = minetest.get_player_by_name(pname)
+    local bal = 0
+    if p ~= nil then
+        local stack = p:get_wielded_item()
+        if stack:get_name() == "credits:credits" then
+            local meta = stack:get_meta()
+            local value = 1
+            if meta:get_int("value") ~= nil then
+                value = meta:get_int("value")
+            end
+            bal = bal + (stack:get_count() * value)
         end
     end
     return bal
@@ -104,15 +74,16 @@ end
 
 -- Dump from digital into physical
 credits.dump = function (name, amount)
-    amt = tonumber(amount) or 0
+    local amt = tonumber(amount) or 0
     local bal = credits.get_balance_digital(name)
     local inv = minetest.get_inventory({type="player", name=name})
     if amt ~= 0 and amt > 0 then
         if bal >= amt then
-            -- Possibly convert this from a bulk or instantanious dump all into one item mabe make it so it can split it into multiple stacks
-            -- Seperate by 1000 (max stack size)
-            -- I need to include usage of mk2 and mk3 into this
-            local stack = ItemStack("credits:credits "..tostring(amt)) -- This doesn't respect max stack size
+            local stack = ItemStack("credits:credits 1") -- We spawn one of these in
+            local meta = stack:get_meta()
+            -- Poof, no more limit! \o/ Yay!
+            meta:set_int("value", amt) -- Set it's value, and update it's description
+            meta:set_string("description", credits.S("Credit\nValue: "..tostring(amt)))
             if inv:room_for_item("main", stack) then
                 inv:add_item("main", stack)
                 credits.add_coin(name, -amt)
@@ -128,19 +99,21 @@ credits.dump = function (name, amount)
     end
 end
 
--- Load all from physical into digital
+-- Load physical into digital
 credits.load = function (name)
-    local bal = credits.get_balance_physical(name) -- The quick and dirty way to know how many there are
-    local inv = minetest.get_inventory({type="player", name=name})
-    for i, s in ipairs(inv:get_list("main")) do -- Actually remove them now
-        if s:get_name() == "credits:credits" then
-            inv:set_stack("main", i, nil)
-        elseif s:get_name() == "credits:credits_mkii" then
-            inv:set_stack("main", i, nil)
-        elseif s:get_name() == "credits:credits_mkiii" then
-            inv:set_stack("main", i, nil)
-        end
-    end -- Ha, now we add the digital based on the first dirty and quick check
+    local bal = credits.get_balance_physical(name) -- The quick and dirty way to know how many there are (Only get's the hands)
+    local player = minetest.get_player_by_name(name) -- Obtain player
+    local stack = player:get_wielded_item() -- Obtain the hand's item
+     -- Actually remove them if processed
+    if stack:get_name() == "credits:credits" then
+        player:set_wielded_item("")
+    -- These are actually to invalidate them (they are worth 0 thanks to this update)
+    elseif stack:get_name() == "credits:credits_mkii" then
+        player:set_wielded_item("")
+    elseif stack:get_name() == "credits:credits_mkiii" then
+        player:set_wielded_item("")
+    end
+    -- Ha, now we add the digital based on the first dirty and quick check
     credits.add_coin(name, bal)
     return true, credits.S("Converted @1 credits", bal)
 end

@@ -40,7 +40,7 @@ end
 
 -- Forms the resulting chat messages to inform the player their balance (Includes seperating each individual account) Pass true or some value to not send to chat
 credits.get_balance = function(pname, silent)
-    local phy = credits.get_balance_physical(pname)
+    local phy = credits.get_balance_physical_all(pname)
     local dig = credits.get_balance_digital(pname)
     local total = 0 + phy + dig
     local p = minetest.get_player_by_name(pname)
@@ -57,22 +57,20 @@ end
 credits.show_bal = function (pname)
     local p = minetest.get_player_by_name(pname)
     local dis = credits.displays or {}
-    local phy = credits.get_balance_physical(pname)
     local dig = credits.get_balance_digital(pname)
-    local total = 0 + phy + dig
     if p ~= nil then
         if dis[pname] == nil then
             dis[pname] = p:hud_add({
                 hud_elem_type = "text",
                 position = {x = 0.15, y = 0.65},
                 offset = {x = 0.0, y = 0.0},
-                text = credits.S("Credits: @1 (@2)", total, phy),
+                text = credits.S("Credits: @1", dig),
                 number = 0x00e100, -- 0, 225, 0 (RGB)
                 alignment = {x = 0.0, y = 0.0},
                 scale = {x = 100.0, y = 100.0}
             })
         else
-            p:hud_change(dis[pname], "text", credits.S("Credits: @1 (@2)", total, phy))
+            p:hud_change(dis[pname], "text", credits.S("Credits: @1", dig))
         end
         credits.displays = dis
     end
@@ -92,7 +90,7 @@ end
 -- These functions were once in cmds but has been moved to easily merge all forms into their coresponding digital.lua or physical.lua files.
 -- Put everything coresponding with a form into that forms file (make everything in one place rather than jumping about in multiple files)
 
--- Pay another person amount coins
+-- Pay another person amount coins (digital to digital)
 credits.pay = function (name, to, amount)
     amt = tonumber(amount) or 0
     local bal = credits.get_balance_digital(name)
@@ -126,7 +124,7 @@ credits.give = function (name, amount)
     end
 end
 
--- Takes digital coins (But first loads physical)
+-- Takes digital coins
 credits.take = function (name, amount)
     if minetest.check_player_privs(name, {give=true}) then
         amt = tonumber(amount) or 0

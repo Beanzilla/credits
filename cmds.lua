@@ -14,13 +14,11 @@ minetest.register_chatcommand("credits", {
             return credits.pay(name, to, amt)
         elseif words[1] == "dump" then
             local amt = string.match(param, "^dump ([%d]+)$")
+            -- No more limit! Because it gets stored essentially into meta of the item
             amt = tonumber(amt) or 0
-            if amt > 1000 then
-                amt = 1000
-                minetest.chat_send_player(name, credits.S("You can only transfer 1000 credits at a time!"))
-            end
             return credits.dump(name, amt)
         elseif words[1] == "load" then
+            -- Changed to load only the currently held credits (so you don't load a bunch of them)
             return credits.load(name)
         elseif words[1] == "help" then
             local C = minetest.chat_send_player
@@ -42,7 +40,6 @@ minetest.register_chatcommand("credits", {
             return credits.give(name, amt)
         elseif words[1] == "take" then
             local amt = string.match(param, "^take ([%d]+)$")
-            credits.load(name)
             return credits.take(name, amt)
         else
             minetest.chat_send_player(name, credits.S("Try /credits help"))
@@ -71,7 +68,7 @@ minetest.register_chatcommand("credits load", {
     privs = {
         shout = true
     },
-    description = "Converts ALL physical credits into digital form"
+    description = "Converts physical credits held in your hand into digital form"
 })
 
 minetest.register_chatcommand("credits pay <player_name> ##", {
