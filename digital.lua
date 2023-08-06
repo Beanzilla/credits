@@ -46,9 +46,9 @@ credits.get_balance = function(pname, silent)
     local p = minetest.get_player_by_name(pname)
     if silent == nil and p ~= nil then
         -- Optionally send the player a chat mesage, but allow it not to be sent too!
-        minetest.chat_send_player(pname, credits.S("Total:    @1", total))
-        minetest.chat_send_player(pname, credits.S("Digital:  @1", dig))
-        minetest.chat_send_player(pname, credits.S("Physical: @1", phy))
+        minetest.chat_send_player(pname, credits.S("Total:    @1c", total))
+        minetest.chat_send_player(pname, credits.S("Digital:  @1c", dig))
+        minetest.chat_send_player(pname, credits.S("Physical: @1c", phy))
     end
     return total
 end
@@ -57,20 +57,20 @@ end
 credits.show_bal = function (pname)
     local p = minetest.get_player_by_name(pname)
     local dis = credits.displays or {}
-    local dig = credits.get_balance_digital(pname)
+    local dig = credits.get_balance_digital(pname) -- Only shows the digital
     if p ~= nil then
         if dis[pname] == nil then
             dis[pname] = p:hud_add({
                 hud_elem_type = "text",
                 position = {x = 0.15, y = 0.65},
                 offset = {x = 0.0, y = 0.0},
-                text = credits.S("Credits: @1", dig),
-                number = 0x00e100, -- 0, 225, 0 (RGB)
+                text = credits.S("@1c", dig),
+                number = 0x00e100, -- 0, 225, 0 (RGB), A bright green
                 alignment = {x = 0.0, y = 0.0},
                 scale = {x = 100.0, y = 100.0}
             })
         else
-            p:hud_change(dis[pname], "text", credits.S("Credits: @1", dig))
+            p:hud_change(dis[pname], "text", credits.S("@1c", dig))
         end
         credits.displays = dis
     end
